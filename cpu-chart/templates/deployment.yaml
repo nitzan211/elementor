@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-monitor
+  labels:
+    app: cpu
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: cpu
+  template:
+    metadata:
+      labels:
+        app: cpu
+    spec:
+      containers:
+      - name: cpu
+        image: nitzanr211/cpu
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-s3
+  labels:
+    app: consumer
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: nitzanr211/consumer
+        ports:
+        - containerPort: 80
